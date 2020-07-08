@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="box">
+        <div class="boxL">
+            <div class="boxLcon">
+                <div class="boxLtop w-100">
+                    <span>聊天系统</span>
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="boxLnav w-100" id="navListx" style="padding: 0;">
+                    <ul>
+                        <li>个人聊天</li>
+                        <li>群组聊天</li>
+                        <li>公屏聊天</li>
+                    </ul>
+                </div>
+                <!-- 个人聊天 -->
+                <div class="Liddd">
+                    <div class="boxLnav w-100 txct">
+                        <span>聊天列表</span>
+                    </div>
+                    <div class="boxList w-100">
+                        <!-- 聊天人列表 -->
+                        <ul id="onlineList">
+                            <!-- <li>admin<button>聊天</button></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- 群组聊天 -->
+                <div class="Liddd">
+                    <div class="boxLnav w-100 txct">
+                        <span>群组聊天</span>
+                    </div>
+                    <input type="text" placeholder="请输入群聊名称" class="buildGroup" id="buildGroup">
+                    <div class="group w-100 txct" id="subGroup">
+                        <span>创建群聊</span>
+                    </div>
+                    <div class="boxList w-100">
+                        <!--群列表 -->
+                        <ul id="groupList">
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 公屏聊天 -->
+                <div class="Liddd">
+                    <div class="boxLnav w-100 txct">
+                        <span>公屏聊天</span>
+                    </div>
+                    <div class="boxList w-100">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 个人聊天 -->
+        <div class="boxR">
+            <form action="">
+            <div class="boxRge">
+                <div class="people">聊天对象：<span id="people"></span></div>
+                <div class="boxRgeCon w-100">
+                    <!-- 聊天内容列表 -->
+                    <div class="w-100" id="chatList">
+
+                    </div>
+                </div>
+                <div class="boxRgeIp w100 fl">
+                    <textarea name="content" id="content" class="boxRgeText w100 fl" cols="30" rows="10"></textarea>
+                    <span onclick="submit(this)" class="boxRgeSub fl w100">发送</span>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- 群聊天 -->
+        <div class="boxR">
+            <form action="">
+            <div class="boxRge">
+                <div class="people">聊天群对象：<span id="groupPeople"></span></div>
+                <div class="boxRgeCon w-100">
+                    <!-- 聊天内容列表 -->
+                    <div class="w-100" id="groupChatList">
+
+                    </div>
+                </div>
+                <div class="boxRgeIp w100 fl">
+                    <textarea name="content" id="groupContent" class="boxRgeText w100 fl" cols="30" rows="10"></textarea>
+                    <span onclick="groupSubmit(this)" class="boxRgeSub fl w100">发送</span>
+                </div>
+                <div class="grouplb">
+                    <div class="boxList w-100">
+                        <ul id="grouplb">
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        <!-- 公屏聊天 -->
+        <div class="boxR">
+            <form action="">
+            <div class="boxRge">
+                <div class="people">公屏聊天</div>
+                <div class="boxRgeCon w-100">
+                    <!-- 聊天内容列表 -->
+                    <div class="w-100" id="sendChatList">
+
+                    </div>
+                </div>
+                <div class="boxRgeIp w100 fl">
+                    <textarea name="content" id="publicContent" class="boxRgeText w100 fl" cols="30" rows="10"></textarea>
+                    <span onclick="publicSubmit(this)" class="boxRgeSub fl w100">发送</span>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../js/js/template-web.js"></script>
+<!-- 聊天列表模板 -->
+<script type="text/html" id="template">
+    <% for(var i = 0; i < chatData.length; i++){ %>
+        <li><i><%=chatData[i].username%></i><button class="chatd" onclick="chat(this)" data-name="<%=chatData[i].username%>" data-socketid="<%=chatData[i].socketid%>">聊天</button><span class="chatdhid">!</span></li>
+    <% } %>
+</script>
+<!-- 聊天内容模板 -->
+<script type="text/html" id="chatTemplate">
+    <% if(meChatData){ %>
+        <% if(meChatData.length != 0){ %>
+            <% for(var i = 0; i < meChatData.length; i++){ %>
+                <% if(meChatData[i].chat == '0'){ %>
+                <div class="boxRgeConL w100 fl">
+                    <div class="w100 boxRgeConT txct fl">
+                        <span><%=meChatData[i].updatetime%></span>
+                        <span class="chatNamel"><%=meChatData[i].name%></span>
+                    </div>
+                    <div class="w100 fl boxRgeConM">
+                        <img class="boxRgeConImg fl" src="../images/icon-avatar6.svg">
+                        <span class="boxRgeConSp fl"><%=meChatData[i].content%></span>
+                    </div>
+                </div>
+                <%} else{ %>
+                <div class="boxRgeConR w100 fl">
+                    <div class="w100 boxRgeConT txct fl">
+                        <span><%=meChatData[i].updatetime%></span>
+                        <span class="chatNamer"><%=meChatData[i].name%></span>
+                    </div>
+                    <div class="w100 fl boxRgeConM">
+                        <img class="boxRgeConImg fr" src="../images/icon-avatar6.svg">
+                        <span class="boxRgeConSp boxRgeConSpact fr"><%=meChatData[i].content%></span>
+                    </div>
+                </div>
+                <%} %>
+            <% } %>
+        <% } %>
+    <%} else{ %>
+        <% if(privateChatData.length != 0){ %>
+            <% for(var i = 0; i < privateChatData.length; i++){ %>
+                <% if(privateChatData[i].chat == 0){ %>
+                <div class="boxRgeConL w100 fl">
+                    <div class="w100 boxRgeConT txct fl">
+                        <span><%=privateChatData[i].updatetime%></span>
+                        <span class="chatNamel"><%=privateChatData[i].name%></span>
+                    </div>
+                    <div class="w100 fl boxRgeConM">
+                        <img class="boxRgeConImg fl" src="../images/icon-avatar6.svg">
+                        <span class="boxRgeConSp fl"><%=privateChatData[i].content%></span>
+                    </div>
+                </div>
+                <%} else{ %>
+                <div class="boxRgeConR w100 fl">
+                    <div class="w100 boxRgeConT txct fl">
+                        <span><%=privateChatData[i].updatetime%></span>
+                        <span class="chatNamer"><%=privateChatData[i].name%></span>
+                    </div>
+                    <div class="w100 fl boxRgeConM">
+                        <img class="boxRgeConImg fr" src="../images/icon-avatar6.svg">
+                        <span class="boxRgeConSp boxRgeConSpact fr"><%=privateChatData[i].content%></span>
+                    </div>
+                </div>
+                <%} %>
+            <% } %>
+        <%} %>
+    <%} %>
+</script>
+<!-- 群列表模板 -->
+<script type="text/html" id="groupsList">
+    <% for(var i = 0; i < groupData.length; i++){ %>
+        <li>
+            <i><%=groupData[i].name%></i>
+            <span id="<%=groupData[i].name%>" class="chatdhid">!</span>
+            <% if(groupData[i].joins == '否'){ %>
+            <button class="chatdx" onclick="groupChat(this)" data-groupname="<%=groupData[i].name%>" data-groupid="<%=groupData[i].groupid%>">聊天</button>
+            <button onclick="groupSign(this)" data-groupid="<%=groupData[i].groupid%>" >
+                <% if(groupData[i].groupstampid == stampid){ %>
+                    解散
+                <%} else{ %>
+                    退群
+                <%} %>
+            </button>
+            <%} else{ %>
+            <button onclick="groupJoin(this)" data-groupid="<%=groupData[i].groupid%>">入群</button>
+            <%} %>
+        </li>
+    <% } %>
+</script>
+<!-- 聊天人员列表模板 -->
+<script type="text/html" id="grouplbTemplate">
+    <% for(var i = 0; i < groupList.length; i++){ %>
+        <li><i><%=groupList[i].name%></i></li>
+    <% } %>
+</script>
+<!-- 群聊天内容模板 -->
+<script type="text/html" id="groupTemplate">
+    <% if(data.length != 0){ %>
+        <% for(var i = 0; i < data.length; i++){ %>
+            <% if(data[i].chat == '0'){ %>
+            <div class="boxRgeConL w100 fl">
+                <div class="w100 boxRgeConT txct fl">
+                    <span><%=data[i].updatetime%></span>
+                    <span class="chatNamel"><%=data[i].name%></span>
+                </div>
+                <div class="w100 fl boxRgeConM">
+                    <img class="boxRgeConImg fl" src="../images/icon-avatar6.svg">
+                    <span class="boxRgeConSp fl"><%=data[i].content%></span>
+                </div>
+            </div>
+            <%} else{ %>
+            <div class="boxRgeConR w100 fl">
+                <div class="w100 boxRgeConT txct fl">
+                    <span><%=data[i].updatetime%></span>
+                    <span class="chatNamer"><%=data[i].name%></span>
+                </div>
+                <div class="w100 fl boxRgeConM">
+                    <img class="boxRgeConImg fr" src="../images/icon-avatar6.svg">
+                    <span class="boxRgeConSp boxRgeConSpact fr"><%=data[i].content%></span>
+                </div>
+            </div>
+            <%} %>
+        <% } %>
+    <% } %>
+</script>
+<!-- 公屏聊天内容模板 -->
+<script type="text/html" id="sendTemplate">
+    <% if(data.length != 0){ %>
+        <% for(var i = 0; i < data.length; i++){ %>
+            <% if(data[i].chat == '0'){ %>
+            <div class="boxRgeConL w100 fl">
+                <div class="w100 boxRgeConT txct fl">
+                    <span><%=data[i].updatetime%></span>
+                    <span class="chatNamel"><%=data[i].name%></span>
+                </div>
+                <div class="w100 fl boxRgeConM">
+                    <img class="boxRgeConImg fl" src="../images/icon-avatar6.svg">
+                    <span class="boxRgeConSp fl"><%=data[i].content%></span>
+                </div>
+            </div>
+            <%} else{ %>
+            <div class="boxRgeConR w100 fl">
+                <div class="w100 boxRgeConT txct fl">
+                    <span><%=data[i].updatetime%></span>
+                    <span class="chatNamer"><%=data[i].name%></span>
+                </div>
+                <div class="w100 fl boxRgeConM">
+                    <img class="boxRgeConImg fr" src="../images/icon-avatar6.svg">
+                    <span class="boxRgeConSp boxRgeConSpact fr"><%=data[i].content%></span>
+                </div>
+            </div>
+            <%} %>
+        <% } %>
+    <% } %>
+</script>
+<!-- 选项卡切换聊天方式 -->
+<script>
+    document.querySelectorAll('#navListx li')[0].classList.add('navListxli');
+    document.querySelectorAll('.Liddd')[0].style.display = 'block';
+    document.querySelectorAll('.boxR')[0].style.display = 'block';
+    for (let k = 0; k < document.querySelectorAll('#navListx li').length; k++) {
+        document.querySelectorAll('#navListx li')[k].addEventListener('mouseenter',function() {
+            for (let l = 0; l < document.querySelectorAll('#navListx li').length; l++) {
+                document.querySelectorAll('#navListx li')[l].classList.remove('navListxli');
+                document.querySelectorAll('.Liddd')[l].style.display = 'none';
+                document.querySelectorAll('.boxR')[l].style.display = 'none';
+            }
+            document.querySelectorAll('#navListx li')[k].classList.add('navListxli');
+            document.querySelectorAll('.Liddd')[k].style.display = 'block';
+            document.querySelectorAll('.boxR')[k].style.display = 'block';
+        },false)
+    }
+</script>
+<script type="text/javascript">
+    let userxStampid = `{{ user.stampid }}`;
+    // 建立连接
+    var socket = io('127.0.0.1:7300');
+    // 客户端登录（让服务器保存用户信息，并会写相关数据）
+    // on表示接收
+    // emit表示发送
+    //  连接触发
+    socket.on('connect', function(){
+        console.log('链接上了');
+        // 登录，同步前后端信息
+        socket.emit('login',{
+            // {{ socketid }}是跳转的时候传过来的
+            id:`{{ user.id }}`
+        });
+    });
+    // 接收个人聊天、群聊列表
+    socket.on('online',function(data) {
+        // console.log(data,`{{user.stampid}}`);
+        // 1、个人聊天聊表
+        // 遍历 减掉属于自己的内容，不能跟自己聊天
+        for (let i = 0; i < data.chatData.length; i++) {
+            if(data.chatData[i].stampid == `{{user.stampid}}`) {
+                data.chatData.splice(i,1);
+            }
+        }
+        // 内容列表
+        let resData = template("template",data);
+		var content = document.getElementById("onlineList");
+        content.innerHTML = resData;
+
+        // 判断有没有群组列表 有就显示
+        if(data.groupData){
+            // 判断,群如果自己是群主或者已经加入了群的,就修改joins,不允许再次加入
+            for (let a = 0; a < data.groupData.length; a++) {
+                if (data.groupData[a].groupstampid == `{{user.stampid}}`) {
+                    data.groupData[a].joins = '否';
+                }
+                if (data.groupData[a].groupPeople.length !=0) {
+                    for (let c = 0; c < data.groupData[a].groupPeople.length; c++) {
+                        if (data.groupData[a].groupPeople[c].stampid == `{{user.stampid}}`) {
+                            data.groupData[a].joins = '否';
+                        }
+                    }
+                }
+            }
+            data.stampid = `{{user.stampid}}`;
+            // 2、群组列表
+            let gData = template("groupsList",data);
+            let gontent = document.getElementById("groupList");
+            gontent.innerHTML = gData;
+        }
+    });
+    // 断开连接触发
+    socket.on('disconnect', function(){
+        console.log('断开连接了');
+    });
+</script>
+<!-- 私聊 -->
+<script src="../js/chat.js"></script>
+<!-- 组聊 -->
+<script src="../js/group.js"></script>
+<!-- 公聊 -->
+<script src="../js/send.js"></script>
+</html>

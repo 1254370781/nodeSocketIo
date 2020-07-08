@@ -1,0 +1,246 @@
+ul {
+    padding: 0;
+    margin: 0;
+}
+li {
+    list-style: none;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.txct {
+    text-align: center;
+}
+.w100 {
+    width: 100%;
+}
+.box {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+.boxL {
+    display: inline-block;
+    width: 400px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    float: left;
+}
+.boxLcon {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+.boxLtop {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+}
+.boxLtop span {
+    display: inline-block;
+    text-align: left;
+    float: left;
+    font-size: 16px;
+}
+.boxLtop span:last-child {
+    text-align: right;
+    float: right;
+}
+.boxLnav {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+}
+.boxLnav li {
+    display: inline-block;
+    width: 33%;
+    border-right: 1px solid #ccc;
+    text-align: center;
+    float: left;
+}
+.boxLnav li:last-child {
+    border-right: none;
+}
+.boxList li {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+}
+.boxList li button {
+    float: right;
+    margin-top: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.boxList li span {
+    float: right;
+    margin-top: 12px;
+    cursor: pointer;
+    display: none;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    margin: 12px 5px 0 5px;
+    border-radius: 50%;
+}
+.boxR {
+    display: inline-block;
+    width: calc(100% - 400px);
+    height: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    float: left;
+    display: none;
+}
+.boxRge {
+    display: inline-block;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.boxRgeCon {
+    height: 500px;
+    /* overflow: auto; */
+    overflow:scroll; 
+    background-color: #eee;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    position: relative;
+}
+.boxRgeCon::-webkit-scrollbar {
+    display: none;
+}
+.people {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+.boxRgeConT {
+    font-size: 14px;
+    color: #ccc;
+    position: relative;
+}
+.chatNamel {
+    position: absolute;
+    left: 0;
+}
+.chatNamer {
+    position: absolute;
+    right: 0;
+}
+.boxRgeConL,
+.boxRgeConR {
+    margin: 10px 0;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+.boxRgeConM {
+    margin-top: 5px;
+}
+.boxRgeConImg {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-top: 6px;
+}
+.boxRgeConL .boxRgeConImg {
+    margin-right: 5px;
+}
+.boxRgeConR .boxRgeConImg {
+    margin-left: 5px;
+}
+.boxRgeConSp {
+    display: inline-block;
+    margin-top: 5px;
+    background-color: #fff;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #232323;
+    font-size: 14px;
+    max-width: 180px;
+}
+.boxRgeConSpact {
+    background-color: #9eea6a;
+}
+.boxRgeIp {
+    border-top: 1px solid #ccc;
+}
+.boxRgeText {
+    box-sizing: border-box;
+    border: none; 
+    padding: 5px;
+    height: 120px;
+}
+.boxRgeSub {
+    background-color: red;
+    color: #fff;
+    padding: 10px 0;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+.chat {
+    background-color: red;
+    color: #fff;
+    border: red;
+    outline: red;
+}
+.Liddd {
+    display: none;
+}
+.navListxli {
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+}
+.group {
+    background-color: green;
+    color: #fff;
+    line-height: 50px;
+    height: 50px;
+}
+.buildGroup {
+    display: inline-block;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 5px;
+    box-sizing: border-box;
+    text-align: center;
+    color: blue;
+}
+.grouplb {
+    position: absolute;
+    width: 200px;
+    height: 708px;
+    right: -202px;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    display: none;
+}

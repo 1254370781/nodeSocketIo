@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/js/axios.min.js"></script>
+    <!-- <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script> -->
+</head>
+<body>
+    <div class="login">
+        <form action="" method="post" id="submit">
+            <div class="center">
+                <h1>注册页面</h1>
+                <div class="inputLi">
+                    <strong>账户</strong>
+                    <input type="text" id="username" name="username" placeholder="请输入账号">
+                </div>
+                <div class="inputLi">
+                    <strong>密码</strong>
+                    <input type="text" id="password" name="password" placeholder="请输入密码">
+                </div>
+                <div class="inputLi">
+                    <button>注册</button>
+                </div>
+                <a class="loginA" href="/login">已有账号，去登录!</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        getQue = ele=> document.querySelector(ele).value;
+        document.querySelector('#submit').addEventListener('submit',function(e) {
+            e.preventDefault();
+            if( getQue('#username') != '' && getQue('#password') != '') {
+                axios.post('/doRegister', {username: getQue('#username'), password: getQue('#password')})
+                .then(function (response) {
+                    if (response.data.code == '002') {
+                        alert(response.data.msg);
+                    }
+                    if(response.data.code == '001') {
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });
+            }else {
+                alert('不能为空！');
+            }
+        },false)
+    </script>
+</body>
+</html>

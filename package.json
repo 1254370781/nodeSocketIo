@@ -1,0 +1,29 @@
+{
+  "name": "nodeSocketIo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "captchapng2": "^1.0.3",
+    "koa": "^2.12.1",
+    "koa-art-template": "^1.1.1",
+    "koa-compress": "^4.0.1",
+    "koa-favicon": "^2.1.0",
+    "koa-formidable": "^1.1.0",
+    "koa-router": "^9.0.1",
+    "koa-session": "^6.0.0",
+    "koa-socket": "^4.4.0",
+    "koa-static": "^5.0.0",
+    "md5-node": "^1.0.1",
+    "mysql": "^2.18.1",
+    "svg-captcha": "^1.4.0"
+  }
+}
